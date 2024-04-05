@@ -10,13 +10,25 @@ The runtime takes care of the details of partitioning the input data, scheduling
 
 
 ### Introduction
-The input data is usually large and the computations have to be distributed across hundreds or thousands of machines in order to finish in a reasonable amount of time.
+The input data is usually large and the computations have to be distributed across multiple machines in order to finish in a reasonable amount of time.
 
 The MapReduce abstraction hides details of parallelization, fault tolerance, data distribution and load balancing. Computations that involve applying a map operation to each logical record in the input in order to compute a set of intermediary key/value pairs, and then applying a reduce operation that share the same key. 
 
 
+### Programming Model
+The computation takes a set of input key/value pairs, and produces a set of output key/value pairs. 
+Map: Takes an input pair and produces a set of intermediary key/value pairs.
+
+Reduce: 
+
+
+### Execution Overview
+ ![Overview](images/mapreduce-execution.png)
+
+The _Map_ invocations are distributed across multiple machines by automatically partitioning the input data into a set of M splits. The input splits can be processed in parallel by different machines. _Reduce_ invocations are distributed by partitioning the intermediate key spaces into R pieces using a partitioning function (eg. hash(key) mod R). The number of partitions (R) and the partitioning function are specifid by the user.
+
+
 ### Fault tolerance
 Re-execution as the primary mechanism for fault tolerance.
-
 
 ### Questions
