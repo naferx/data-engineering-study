@@ -19,7 +19,7 @@ The MapReduce abstraction hides details of parallelization, fault tolerance, dat
 The computation takes a set of input key/value pairs, and produces a set of output key/value pairs. 
 Map: Takes an input pair and produces a set of intermediary key/value pairs.
 
-Reduce: 
+Reduce: Accepts an intermediary key I and a set of values for that key. It merges together these values to form a possibly smaller set of values.
 
 
 ### Execution Overview
@@ -29,6 +29,16 @@ The _Map_ invocations are distributed across multiple machines by automatically 
 
 
 ### Fault tolerance
+The master pings every worker periodically.
 Re-execution as the primary mechanism for fault tolerance.
+The master write periodic checkpoints of the master data structures
+
+
+### Locality
+GFS divides each file into 64MB blocks, and stores several copies of each block (typically 3 copies) on different machines.
+
+
+### Task Granularity
+We subdivide the map phase into M pieces and the reduce phase into R pieces. Ideally, M and R should be much large than the number of worker machines.
 
 ### Questions
